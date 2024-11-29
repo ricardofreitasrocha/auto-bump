@@ -64,6 +64,7 @@ jobs:
           BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
         run: |
           git checkout -b $BRANCH_NAME
+          git commit -am "Bump app to version ${{ steps.package-version.outputs.current-version }}"
 
       - name: create pull request
         env:
