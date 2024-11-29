@@ -26,3 +26,4 @@ jobs:
 
       - name: Echo bump type
         run: echo ${{ env.BUMP }}
+        
