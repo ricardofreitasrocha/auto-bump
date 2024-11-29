@@ -70,11 +70,14 @@ jobs:
 
       - name: Prepare git config and commit signing
         run: |
+          echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinetry-mode loopback --import
           gpg_key_id=$(gpg --list-secret-keys --keyid-format=long | grep 'sec' | awk '{print $2}' | cut -d'/' -f2)
           git config --global user.signingkey "$gpg_key_id"
           git config --global commit.gpgsign true
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Create a branch and commit changes
         env:
