@@ -19,8 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - uses: chainguard-dev/actions/setup-gitsign@main
-
       - name: Check commit type
         run: |
           echo COMMIT_TYPE=$(echo ${{ github.event.head_commit.message }} \
@@ -64,9 +62,11 @@ jobs:
 
       - name: Import GPG key
         run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          echo "Debuggin GPG key"
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" > private.key
+          cat private.key
+          gpg --batch --import private.key
+          gpg --list-secret-keys || echo "Failed to import key"
 
       - name: Prepare git config and commit signing
         run: |
