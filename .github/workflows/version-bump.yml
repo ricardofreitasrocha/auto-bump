@@ -36,8 +36,15 @@ jobs:
 
       - name: Is patch bump
         if: ${{ contains(fromJSON('["chore", "fix"]'), env.COMMIT_TYPE ) }}
-        run:  |
+        run: |
           echo BUMP_TYPE=patch >> $GITHUB_ENV
 
-      - name: Echo bump type
-        run: echo ${{ env.BUMP_TYPE }}
+      - name: Is bump type detected
+        if: ! echo ${{ env.BUMP_TYPE }}
+        run: exit 1
+
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: "22"
+      #     registry-url: "https://registry.npmjs.org"
