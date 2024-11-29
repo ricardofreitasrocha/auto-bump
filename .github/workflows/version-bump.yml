@@ -18,11 +18,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check bump type
+      - name: Check commit type
         run: |
-          echo BUMP=$(echo ${{ github.event.head_commit.message }} \
+          echo COMMIT_TYPE=$(echo ${{ github.event.head_commit.message }} \
           | grep -o '\(feat\|chore\|fix\)\(!\?\)\:' \
           | grep -o '\(feat\|chore\|fix\)\(!\?\)') >> $GITHUB_ENV
 
-      - name: Echo bump type
-        run: echo ${{ env.BUMP }}
+      - name: Check bump type
+        run: |
+          if ${{ env.COMMIT_TYPE }} in ["feat!", "chore!", "fix!"]; then \
+            echo "Is major bump"
+          elif ${{ env.COMMIT_TYPE }} in ["chore", "fix"]; then \
+            echo "Is patch bump"
+          elif ${{ env.COMMIT_TYPE }} eq "feat"; then \
+            echo "Is minor bump"
+          fi
