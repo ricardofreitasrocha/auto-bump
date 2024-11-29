@@ -22,7 +22,7 @@ jobs:
         run: |
           echo BUMP=$(echo ${{ github.event.head_commit.message }} \
           | grep -o '\(feat\|chore\|fix\)\(!\?\)\:' \
-          | grep -o '^\(feat\|chore\|fix\)\(!\?\)$' >> $GITHUB_ENV
+          | grep -o '\(feat\|chore\|fix\)\(!\?\)' >> $GITHUB_ENV
 
       - name: Echo bump type
         run: echo ${{ env.BUMP }}
