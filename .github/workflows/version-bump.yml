@@ -26,10 +26,10 @@ jobs:
 
       - name: Check bump type
         run: |
-          if ${{ env.COMMIT_TYPE }} in ["feat!", "chore!", "fix!"]; then \
+          if [ ("feat!" "chore!" "fix!")[@] =~ ${{ env.COMMIT_TYPE }} ]; then \
             echo "Is major bump"
-          elif ${{ env.COMMIT_TYPE }} in ["chore", "fix"]; then \
+          elif [ ("chore" "fix")[@] =~ ${{ env.COMMIT_TYPE }} ]; then \
             echo "Is patch bump"
-          elif ${{ env.COMMIT_TYPE }} eq "feat"; then \
+          elif [ ${{ env.COMMIT_TYPE }} == "feat" ]; then \
             echo "Is minor bump"
           fi
