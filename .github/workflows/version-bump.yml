@@ -60,24 +60,24 @@ jobs:
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
 
-      - name: Import GPG key
-        run: |
-          echo "Debuggin GPG key"
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" > private.key
-          cat private.key
-          gpg --batch --import private.key
-          gpg --list-secret-keys || echo "Failed to import key"
+      # - name: Import GPG key
+      #   run: |
+      #     echo "Debuggin GPG key"
+      #     echo "${{ secrets.GPG_PRIVATE_KEY }}" > private.key
+      #     cat private.key
+      #     gpg --batch --import private.key
+      #     gpg --list-secret-keys || echo "Failed to import key"
 
-      - name: Prepare git config and commit signing
-        run: |
-          echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --import
-          gpg_key_id=$(gpg --list-secret-keys --keyid-format=long | grep 'sec' | awk '{print $2}' | cut -d'/' -f2)
-          git config --global user.signingkey "$gpg_key_id"
-          git config --global commit.gpgsign true
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions@users.noreply.github.com"
-        env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      # - name: Prepare git config and commit signing
+      #   run: |
+      #     echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --import
+      #     gpg_key_id=$(gpg --list-secret-keys --keyid-format=long | grep 'sec' | awk '{print $2}' | cut -d'/' -f2)
+      #     git config --global user.signingkey "$gpg_key_id"
+      #     git config --global commit.gpgsign true
+      #     git config --global user.name "github-actions[bot]"
+      #     git config --global user.email "github-actions@users.noreply.github.com"
+      #   env:
+      #     GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Create a branch and commit changes
         env:
