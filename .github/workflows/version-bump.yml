@@ -64,9 +64,10 @@ jobs:
           BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
         run: |
           git checkout -b $BRANCH_NAME
-          echo "$BRANCH_NAME" >> $GITHUB_ENV
 
       - name: create pull request
-        run: gh pr create -B main -H ${{ env.BRANCH_NAME }} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+        env:
+          BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
+        run: gh pr create -B main -H $BRANCH_NAME --title 'Merge $BRANCH_NAME into main' --body 'Created by Github action'
         # env:
         #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
