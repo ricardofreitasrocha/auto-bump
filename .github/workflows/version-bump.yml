@@ -1,0 +1,28 @@
+name: Bump version
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  bump-version:
+    name: Bump app version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check bump type
+        run: |
+          echo BUMP=$(echo ${{ github.event.head_commit.message }} \
+          | grep -o "(feat!:\|feat:\|chore!:\|chore:\|fix!:\|fix:\)" \
+          | grep -o "feat!\|feat\|chore!\|chore\|fix!\|fix") >> $GITHUB_ENV
+
+      - name: Echo bump type
+        run: echo ${{ env.BUMP }}
