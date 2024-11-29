@@ -18,8 +18,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          signoff: true
 
-      - uses: chainguard-dev/actions/setup-gitsign@main
+      # - uses: chainguard-dev/actions/setup-gitsign@main
 
       - name: Check commit type
         run: |
