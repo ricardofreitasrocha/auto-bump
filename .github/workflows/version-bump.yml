@@ -94,3 +94,4 @@ jobs:
           BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr create -B main -H $BRANCH_NAME --title $BRANCH_NAME --body 'Created by Github action'
+
