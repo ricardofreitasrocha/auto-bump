@@ -41,10 +41,32 @@ jobs:
 
       - name: Bump is not detected
         if: ${{ env.BUMP_TYPE == '' }}
-        run: exit 1
+        run: |
+          echo "There was no bump detected :-("
+          exit 1
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: "22"
-      #     registry-url: "https://registry.npmjs.org"
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Bump version
+        run: |
+          npm version --commit-hooks false --git-tag-version false ${{ env.BUMP_TYPE }}
+
+      - name: Get new version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+      - name: Create a new branch
+        env:
+          BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
+        run: |
+          git checkout -b $BRANCH_NAME
+          echo $BRANCH_NAME >> $GITHUB_ENV
+
+      - name: create pull request
+        run: gh pr create -B main -H ${{ env.BRANCH_NAME }} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
