@@ -72,10 +72,9 @@ jobs:
           BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git checkout -b $BRANCH_NAME
           git add .
           git commit -m "Bump app to version ${{ steps.package-version.outputs.current-version }}"
-          git push origin $BRANCH_NAME
+          git push
 
       # - name: create pull request
       #   env:
