@@ -25,13 +25,13 @@ jobs:
           | grep -o '\(feat\|chore\|fix\)\(!\?\)') >> $GITHUB_ENV
 
       - name: Is major bump
-        if: contains(fromJSON('["feat!", "chore!", "fix!"]'), ${{ env.COMMIT_TYPE }})
-        run: echo "${{ env.COMMIT_TYPE}} Is major bump"
+        if: ${{ true == contains(fromJSON('["feat!", "chore!", "fix!"]'), ${{ env.COMMIT_TYPE }}) }}
+        run: echo "${{ env.COMMIT_TYPE }} Is major bump"
 
       - name: Is minor bump
-        if: ${{ env.COMMIT_TYPE }} == 'feat'
+        if: ${{ env.COMMIT_TYPE == 'feat' }}
         run: echo "${{ env.COMMIT_TYPE }} Is minor bump"
 
       - name: Is patch bump
-        if: contains(fromJSON('["chore", "fix"]'), ${{ env.COMMIT_TYPE }})
+        if: ${{ true == contains(fromJSON('["chore", "fix"]'), ${{ env.COMMIT_TYPE }}) }}
         run: echo "${{ env.COMMIT_TYPE }} Is patch bump"
