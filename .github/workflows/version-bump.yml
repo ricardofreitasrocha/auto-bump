@@ -64,6 +64,8 @@ jobs:
           BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
         run: |
           git checkout -b $BRANCH_NAME
+          git config --global user.email "bot@some-bot.com"
+          git config --global user.name "[BOT] User Bot"
           git commit -am "Bump app to version ${{ steps.package-version.outputs.current-version }}"
 
       - name: create pull request
