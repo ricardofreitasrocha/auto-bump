@@ -63,6 +63,7 @@ jobs:
         env:
           BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
         run: |
+          date > generated.txt
           git checkout -b $BRANCH_NAME
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
