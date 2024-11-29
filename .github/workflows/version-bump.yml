@@ -39,8 +39,8 @@ jobs:
         run: |
           echo BUMP_TYPE=patch >> $GITHUB_ENV
 
-      - name: Has bump
-        if: ! ${{ env.BUMP_TYPE }}
+      - name: Bump is not detected
+        if: ${{ env.BUMP_TYPE == '' }}
         run: exit 1
 
       # - name: Set up Node.js
