@@ -26,12 +26,18 @@ jobs:
 
       - name: Is major bump
         if: ${{ contains(fromJSON('["feat!", "chore!", "fix!"]'), env.COMMIT_TYPE ) }}
-        run: echo "${{ env.COMMIT_TYPE }} Is major bump"
+        run: |
+          echo BUMP_TYPE=major >> $GITHUB_ENV
 
       - name: Is minor bump
         if: ${{ env.COMMIT_TYPE == 'feat' }}
-        run: echo "${{ env.COMMIT_TYPE }} Is minor bump"
+        run: |
+          echo BUMP_TYPE=minor >> $GITHUB_ENV
 
       - name: Is patch bump
         if: ${{ contains(fromJSON('["chore", "fix"]'), env.COMMIT_TYPE ) }}
-        run: echo "${{ env.COMMIT_TYPE }} Is patch bump"
+        run:  |
+          echo BUMP_TYPE=patch >> $GITHUB_ENV
+
+      - name: Echo bump type
+        run: echo ${{ env.BUMP_TYPE }}
