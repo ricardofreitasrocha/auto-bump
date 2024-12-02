@@ -1,6 +1,6 @@
 name: Merge any version bump
 on:
-  push:
+  pull_request:
     branches:
       - 'v/*'
 jobs:
