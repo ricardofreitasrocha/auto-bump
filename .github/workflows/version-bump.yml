@@ -88,7 +88,7 @@ jobs:
 
       - name: Create a branch and commit changes
         env:
-          BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
+          BRANCH_NAME: v/${{ steps.package-version.outputs.current-version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
@@ -100,7 +100,7 @@ jobs:
 
       - name: Create pull request
         env:
-          BRANCH_NAME: v${{ steps.package-version.outputs.current-version }}
+          BRANCH_NAME: v/${{ steps.package-version.outputs.current-version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr create -B main -H $BRANCH_NAME --title $BRANCH_NAME --body 'Created by Github action'
 
