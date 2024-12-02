@@ -2,10 +2,11 @@ name: Merge any version bump
 on:
   pull_request:
     branches:
-      - 'v/*'
+      - 'develop'
 jobs:
   merge-branch:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/v/*'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
