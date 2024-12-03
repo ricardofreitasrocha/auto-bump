@@ -52,6 +52,11 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Prepare git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Bump version
         run: |
           npm version --commit-hooks false --git-tag-version false ${{ env.BUMP_TYPE }}
@@ -63,18 +68,16 @@ jobs:
       - name: Create a branch and commit changes
         env:
           BRANCH_NAME: v/${{ steps.package-version.outputs.current-version }}
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b $BRANCH_NAME
           git add .
           git commit -m "Bump app to version ${{ steps.package-version.outputs.current-version }}"
           git push origin $BRANCH_NAME
 
-      - name: Create pull request
-        env:
-          BRANCH_NAME: v/${{ steps.package-version.outputs.current-version }}
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: gh pr create -B main -H $BRANCH_NAME --title $BRANCH_NAME --body 'Created by Github action'
+      # - name: Create pull request
+      #   env:
+      #     BRANCH_NAME: v/${{ steps.package-version.outputs.current-version }}
+      #     GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      #   run: gh pr create -B main -H $BRANCH_NAME --title $BRANCH_NAME --body 'Created by Github action'
 
