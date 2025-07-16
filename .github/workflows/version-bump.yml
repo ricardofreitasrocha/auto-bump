@@ -19,32 +19,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check commit type
-        run: |
-          echo COMMIT_TYPE=$(echo ${{ github.event.head_commit.message }} \
-          | grep -o '\(feat\|chore\|fix\)\(!\?\)\:' \
-          | grep -o '\(feat\|chore\|fix\)\(!\?\)') >> $GITHUB_ENV
+      # - name: Check commit type
+      #   run: |
+      #     echo COMMIT_TYPE=$(echo ${{ github.event.head_commit.message }} \
+      #     | grep -o '\(feat\|chore\|fix\)\(!\?\)\:' \
+      #     | grep -o '\(feat\|chore\|fix\)\(!\?\)') >> $GITHUB_ENV
 
-      - name: Is major bump
-        if: ${{ contains(fromJSON('["feat!", "chore!", "fix!"]'), env.COMMIT_TYPE ) }}
-        run: |
-          echo BUMP_TYPE=major >> $GITHUB_ENV
+      # - name: Is major bump
+      #   if: ${{ contains(fromJSON('["feat!", "chore!", "fix!"]'), env.COMMIT_TYPE ) }}
+      #   run: |
+      #     echo BUMP_TYPE=major >> $GITHUB_ENV
 
-      - name: Is minor bump
-        if: ${{ env.COMMIT_TYPE == 'feat' }}
-        run: |
-          echo BUMP_TYPE=minor >> $GITHUB_ENV
+      # - name: Is minor bump
+      #   if: ${{ env.COMMIT_TYPE == 'feat' }}
+      #   run: |
+      #     echo BUMP_TYPE=minor >> $GITHUB_ENV
 
-      - name: Is patch bump
-        if: ${{ contains(fromJSON('["chore", "fix"]'), env.COMMIT_TYPE ) }}
-        run: |
-          echo BUMP_TYPE=patch >> $GITHUB_ENV
+      # - name: Is patch bump
+      #   if: ${{ contains(fromJSON('["chore", "fix"]'), env.COMMIT_TYPE ) }}
+      #   run: |
+      #     echo BUMP_TYPE=patch >> $GITHUB_ENV
 
-      - name: Bump is not detected
-        if: ${{ env.BUMP_TYPE == '' }}
-        run: |
-          echo "There was no bump detected :-("
-          exit 1
+      # - name: Bump is not detected
+      #   if: ${{ env.BUMP_TYPE == '' }}
+      #   run: |
+      #     echo "There was no bump detected :-("
+      #     exit 1
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
