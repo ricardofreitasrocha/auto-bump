@@ -61,6 +61,8 @@ jobs:
         uses: martinbeentjes/npm-get-version-action@v1.3.1
 
       - name: Create a tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git tag -a v${{ steps.package-version.outputs.current-version }} -m "Bump app to version ${{ steps.package-version.outputs.current-version }}"
           git push origin v${{ steps.package-version.outputs.current-version }}
